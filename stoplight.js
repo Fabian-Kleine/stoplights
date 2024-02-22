@@ -44,21 +44,22 @@ const stoplightRight = new Stoplight(stoplightRightDOM);
 const stoplightLeft = new Stoplight(stoplightLeftDOM);
 const stoplightBottom = new Stoplight(stoplightBottomDOM);
 
-function runStoplights() {
+async function delay(delayTime) {
+    await new Promise((resolve) => setTimeout(resolve, delayTime));
+}
+
+async function runStoplights() {
     stoplightTop.setRed();
     stoplightBottom.setRed();
-    setTimeout(() => {
-        stoplightLeft.setGreen();
-        stoplightRight.setGreen();
-    }, 3000);
-    setTimeout(() => {
-        stoplightLeft.setRed();
-        stoplightRight.setRed();
-        setTimeout(() => {
-            stoplightTop.setGreen();
-            stoplightBottom.setGreen();
-        }, 3000)
-    }, 10000);
+    await delay(3000);
+    stoplightLeft.setGreen();
+    stoplightRight.setGreen();
+    await delay(10000);
+    stoplightLeft.setRed();
+    stoplightRight.setRed();
+    await delay(3000);
+    stoplightTop.setGreen();
+    stoplightBottom.setGreen();
 }
 
 runStoplights()
