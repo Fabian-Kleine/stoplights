@@ -1,3 +1,8 @@
+//utility functions
+async function delay(delayTime) {
+    await new Promise((resolve) => setTimeout(resolve, delayTime));
+}
+
 //stoplights
 const stoplightTopDOM = document.getElementById("stoplightTop");
 const stoplightRightDOM = document.getElementById("stoplightRight");
@@ -16,25 +21,23 @@ class Stoplight {
         this.activeLight = "red";
     }
 
-    setRed() {
+    async setRed() {
         this.greenLight.classList.remove("active");
         this.yellowLight.classList.add("active");
         this.activeLight = "yellow";
-        setTimeout(() => {
-            this.yellowLight.classList.remove("active");
-            this.redLight.classList.add("active");
-        }, 1000);
+        await delay(1000)
+        this.yellowLight.classList.remove("active");
+        this.redLight.classList.add("active");
         this.activeLight = "red"
     }
 
-    setGreen() {
+    async setGreen() {
         this.yellowLight.classList.add("active");
         this.activeLight = "yellow";
-        setTimeout(() => {
-            this.redLight.classList.remove("active");
-            this.yellowLight.classList.remove("active");
-            this.greenLight.classList.add("active");
-        }, 1000);
+        await delay(1000)
+        this.redLight.classList.remove("active");
+        this.yellowLight.classList.remove("active");
+        this.greenLight.classList.add("active");
         this.activeLight = "green"
     }
 }
@@ -43,10 +46,6 @@ const stoplightTop = new Stoplight(stoplightTopDOM);
 const stoplightRight = new Stoplight(stoplightRightDOM);
 const stoplightLeft = new Stoplight(stoplightLeftDOM);
 const stoplightBottom = new Stoplight(stoplightBottomDOM);
-
-async function delay(delayTime) {
-    await new Promise((resolve) => setTimeout(resolve, delayTime));
-}
 
 async function runStoplights() {
     stoplightTop.setRed();
