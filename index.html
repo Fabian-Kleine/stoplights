@@ -11,13 +11,14 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./stoplights.css">
+    <script src="./stoplight.js" defer></script>
 </head>
 
 <body>
     <div class="container d-flex flex-column align-items-center vw-100">
         <h1>Stoplights</h1>
         <div class="d-flex justify-content-start w-25">
-            <div class="stoplight stoplight-reverse">
+            <div id="stoplightTop" class="stoplight stoplight-reverse">
                 <span class="red-stoplight"></span>
                 <span class="yellow-stoplight"></span>
                 <span class="green-stoplight"></span>
@@ -25,7 +26,7 @@
         </div>
         <div class="stoplight-spacer"></div>
         <div class="d-flex justify-content-end w-75">
-            <div class="stoplight stoplight-row">
+            <div id="stoplightRight" class="stoplight stoplight-row">
                 <span class="red-stoplight"></span>
                 <span class="yellow-stoplight"></span>
                 <span class="green-stoplight"></span>
@@ -33,7 +34,7 @@
         </div>
         <div class="stoplight-spacer"></div>
         <div class="d-flex justify-content-start w-75">
-            <div class="stoplight stoplight-row-reverse">
+            <div id="stoplightLeft" class="stoplight stoplight-row-reverse">
                 <span class="red-stoplight"></span>
                 <span class="yellow-stoplight"></span>
                 <span class="green-stoplight"></span>
@@ -41,7 +42,7 @@
         </div>
         <div class="stoplight-spacer"></div>
         <div class="d-flex justify-content-end w-25">
-            <div class="stoplight">
+            <div id="stoplightBottom" class="stoplight">
                 <span class="red-stoplight"></span>
                 <span class="yellow-stoplight"></span>
                 <span class="green-stoplight"></span>
