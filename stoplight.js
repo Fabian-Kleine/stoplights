@@ -16,22 +16,6 @@ class Stoplight {
         this.activeLight = "red";
     }
 
-    toggleLight(color) {
-        this.redLight.classList.remove("active");
-        this.yellowLight.classList.remove("active");
-        this.greenLight.classList.remove("active");
-        if (color == "red") {
-            this.redLight.classList.add("active");
-        }
-        if (color == "yellow") {
-            this.yellowLight.classList.add("active");
-        }
-        if (color == "green") {
-            this.greenLight.classList.add("active");
-        }
-        this.activeLight = color;
-    }
-
     setRed() {
         this.greenLight.classList.remove("active");
         this.yellowLight.classList.add("active");
