@@ -43,3 +43,24 @@ const stoplightTop = new Stoplight(stoplightTopDOM);
 const stoplightRight = new Stoplight(stoplightRightDOM);
 const stoplightLeft = new Stoplight(stoplightLeftDOM);
 const stoplightBottom = new Stoplight(stoplightBottomDOM);
+
+function runStoplights() {
+    stoplightTop.setRed();
+    stoplightBottom.setRed();
+    setTimeout(() => {
+        stoplightLeft.setGreen();
+        stoplightRight.setGreen();
+    }, 3000);
+    setTimeout(() => {
+        stoplightLeft.setRed();
+        stoplightRight.setRed();
+        setTimeout(() => {
+            stoplightTop.setGreen();
+            stoplightBottom.setGreen();
+        }, 3000)
+    }, 10000);
+}
+
+runStoplights()
+
+setInterval(() => runStoplights(), 20000);
