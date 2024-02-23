@@ -22,6 +22,24 @@
     grid-area: 5 / 1 / 6 / 3;
 }
 
+#pedestrianStoplightBottom {
+    grid-area: 6 / 2 / 7 / 6;
+}
+
+#pedestrianStoplightTop {
+    grid-area: 2 / 5 / 7 / 6;
+    justify-self: end;
+    margin-right: 20px;
+}
+
+#pedestrianStoplightLeft {
+    grid-area: 2 / 2 / 2 / 3;
+}
+
+#pedestrianStoplightRight {
+    grid-area: 6 / 6 / 7 / 6;
+}
+
 .stoplight {
     background-color: black;
     display: inline-flex;
@@ -68,4 +86,60 @@
 .green-stoplight.active {
     background-color: limegreen;
     box-shadow: 0px 0px 32px 7px limegreen;
+}
+
+.pedestrian-stoplight .red-stoplight.active {
+    background-color: black;
+    background-image: url(./img/red-ampelmännchen.png);
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.pedestrian-stoplight .green-stoplight.active {
+    background-color: inherit;
+    background-image: url(./img/green-ampelmännchen.png);
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.pedestrian-button {
+    background-color: darkorange;
+    background-image: url(./img/hand.png);
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 25px;
+    border-radius: 5px;
+    margin: 2.5px;
+    outline: none;
+    border: none;
+}
+
+.pedestrian-button.active {
+    animation: pedestrian-button-blinking 2s infinite;
+}
+
+@keyframes pedestrian-button-blinking {
+    0% {
+        background-color: darkred;
+    }
+
+    49% {
+        background-color: darkred;
+    }
+    
+    50% {
+        background-color: darkorange;
+    }
+
+    99% {
+        background-color: darkorange;
+    }
+
+    100% {
+        background-color: darkred;
+    }
 }
