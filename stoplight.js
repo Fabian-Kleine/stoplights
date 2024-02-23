@@ -112,6 +112,4 @@ async function stoplightsCycle() {
     pedestrianStoplightBottom.requestGreen();
 }
 
-stoplightsCycle()
-
 setInterval(() => stoplightsCycle(), 30000);
