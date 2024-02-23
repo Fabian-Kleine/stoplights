@@ -1,3 +1,27 @@
+.stoplights-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 10vw);
+    grid-template-rows: repeat(6, 10vh);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+#stoplightTop {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+#stoplightBottom {
+    grid-area: 6 / 5 / 7 / 6;
+}
+
+#stoplightRight {
+    grid-area: 2 / 6 / 3 / 6;
+}
+
+#stoplightLeft {
+    grid-area: 5 / 1 / 6 / 3;
+}
+
 .stoplight {
     background-color: black;
     display: inline-flex;
@@ -5,21 +29,19 @@
     align-items: center;
     border-radius: 5px;
     padding: 2.5px;
+    height: fit-content;
+    width: fit-content;
 }
 
-.stoplight-spacer{
-    margin: 50px 0;
-}
-
-.stoplight.stoplight-reverse{
+.stoplight.stoplight-reverse {
     flex-direction: column-reverse;
 }
 
-.stoplight.stoplight-row{
+.stoplight.stoplight-row {
     flex-direction: row;
 }
 
-.stoplight.stoplight-row-reverse{
+.stoplight.stoplight-row-reverse {
     flex-direction: row-reverse;
 }
 
