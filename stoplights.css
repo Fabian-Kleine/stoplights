@@ -143,3 +143,25 @@
         background-color: darkred;
     }
 }
+
+@media only screen and (max-width: 775px) {
+    .stoplights-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 10vw);
+        grid-template-rows: repeat(4, 10vh);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+    }
+
+    #pedestrianStoplightRight {
+        margin-left: 20px;
+    }
+
+    #pedestrianStoplightBottom {
+        margin-top: 20px;
+    }
+
+    #pedestrianStoplightLeft {
+        margin-right: 20px;
+    }
+}
