@@ -33,7 +33,8 @@ class Stoplight {
         if (this.yellowLight) await delay(1500)
         if (this.yellowLight) this.yellowLight.classList.remove("active");
         this.redLight.classList.add("active");
-        this.activeLight = "red"
+        this.activeLight = "red";
+        if (this.pedestrianButton) this.pedestrianButton.disabled = false;
     }
 
     async setGreen() {
@@ -43,11 +44,12 @@ class Stoplight {
         this.redLight.classList.remove("active");
         if (this.yellowLight) this.yellowLight.classList.remove("active");
         this.greenLight.classList.add("active");
-        this.activeLight = "green"
+        this.activeLight = "green";
     }
 
     requestSignal() {
         this.pedestrianButton.classList.add("active");
+        this.pedestrianButton.disabled = true;
     }
 
     async requestGreen() {
