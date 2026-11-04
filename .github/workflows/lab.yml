@@ -78,12 +78,27 @@ jobs:
             eval "$LAB_BUILD"
           elif [ "${{ steps.cfg.outputs.node }}" = true ]; then
             # Appends to the "build" script, which normally ends in `vite build`.
-            ${{ steps.cfg.outputs.pm }} run build -- --base="$LAB_BASE"
+            # npm needs `--` to forward args; pnpm/yarn would pass it on to vite,
+            # which then ignores --base.
+            case "${{ steps.cfg.outputs.pm }}" in
+              npm) npm run build -- --base="$LAB_BASE" ;;
+              *)   ${{ steps.cfg.outputs.pm }} run build --base="$LAB_BASE" ;;
+            esac
           else
             # Plain static site: publish the tracked files as they are.
             mkdir -p "$OUT"
             git ls-files -z | grep -zvE '^(\.git|README\.md$|LICENSE$)' \
               | xargs -0 cp --parents -t "$OUT"
+          fi
+
+      - name: Check asset paths
+        if: steps.cfg.outputs.node == 'true' || env.LAB_BUILD != ''
+        run: |
+          # Root-relative URLs must stay inside this app's folder.
+          bad=$(grep -oE '(src|href)="/[^/"][^"]*"' "$OUT/index.html" | grep -v "=\"$LAB_BASE" || true)
+          if [ -n "$bad" ]; then
+            echo "::error::index.html references paths outside $LAB_BASE (base not applied?):"
+            echo "$bad"; exit 1
           fi
 
       - name: Write lab.json
@@ -97,7 +112,8 @@ jobs:
             --arg commit "${{ github.sha }}" \
             --arg builtAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             '{name: $name, description: $description, repo: $repo, commit: $commit,
-              builtAt: $builtAt} | with_entries(select(.value != ""))' \
+              builtAt: $builtAt, screenshot: "screenshot.png"}
+              | with_entries(select(.value != ""))' \
             > "$OUT/lab.json"
 
       - name: Upload and publish
@@ -114,3 +130,19 @@ jobs:
           rsync -rlz --delete --chmod=D2750,F640 -e "$ssh_cmd" "$OUT/" "labdeploy@lab.fabian-kleine.dev:$SLUG/"
           $ssh_cmd labdeploy@lab.fabian-kleine.dev "publish $SLUG"
           echo "### Deployed to https://lab.fabian-kleine.dev/$SLUG/" >> "$GITHUB_STEP_SUMMARY"
+
+      # Photograph the live page for the overview card. Never fails the deploy.
+      - name: Screenshot
+        continue-on-error: true
+        env:
+          SLUG: ${{ steps.cfg.outputs.slug }}
+          PLAYWRIGHT: playwright@1.49.1
+        run: |
+          url="https://lab.fabian-kleine.dev/$SLUG/"
+          npx -y "$PLAYWRIGHT" install --with-deps chromium >/dev/null
+          npx -y "$PLAYWRIGHT" screenshot -b chromium --viewport-size "1280, 800" \
+            --wait-for-timeout 2500 "$url" "$RUNNER_TEMP/screenshot.png"
+          ssh_cmd="ssh -i ~/.ssh/lab -o IdentitiesOnly=yes"
+          rsync -z --chmod=F640 -e "$ssh_cmd" "$RUNNER_TEMP/screenshot.png" "labdeploy@lab.fabian-kleine.dev:$SLUG/"
+          $ssh_cmd labdeploy@lab.fabian-kleine.dev "publish $SLUG"
+          echo "![screenshot](${url}screenshot.png)" >> "$GITHUB_STEP_SUMMARY"
